@@ -10,52 +10,54 @@ export default function WelcomeCard() {
   }
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4 bg-gray-800">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full border-t-4 border-blue-500">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center font-sans">
-          📚 <span className="text-blue-500">Prenez le contrôle de votre parcours académique !</span>
+    
+
+      <div className="bg-white rounded-lg shadow-lg p-8   h-full w-full ">
+        <h1 className="text-5xl font-extrabold  mb-6 mt-15 text-center font-sans ">
+          📚 <span className="bg-gradient-to-r from-[#4FC3F7] to-[#0288D1] bg-clip-text text-transparent">Prenez le contrôle de votre parcours académique !</span>
         </h1>
 
-        <p className="text-gray-800 text-center mb-6 font-sans">
+        <p className="text-gray-800 text-center mt-10 mb-6 font-sans font-bold text-4xl">
           Bienvenue sur ESI-Moyenne, votre assistant intelligent pour calculer vos moyennes et suivre votre progression
           tout au long de votre scolarité à l'ESI.
         </p>
 
-        <div className="mb-8 space-y-3 font-sans">
-          <p className="text-gray-700 mb-4">
+        <div className="mb-8 space-y-3 font-sans pl-12 mt-12">
+          <p className="text-gray-700 mb-7  font-semibold text-xl">
             Que vous soyez en 1re année ou en Master, cette plateforme vous permet en quelques clics de
           </p>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
-              <span className="text-gray-700">
-                Choisir votre <strong>année</strong> et <strong>semestre</strong> d'étud
+          <div className="space-y-2 ">
+            <div className="flex items-center gap-2 mb-4 font-semibold text-xl">
+              <span className="text-yellow-500">🏅</span>
+              <span className="text-gray-700 font-semibold text-xl ">
+                Choisir votre <strong>📅année</strong> et <strong>🍂semestre</strong> d'étude
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
+            <div className="flex items-center gap-2 font-semibold text-xl mb-4">
+              <span className="text-yellow-500">🏅</span>
               <span className="text-gray-700">
-                Entrer vos <strong>notes</strong> de CI, CF.TP... pour chaque <strong>modules</strong>
+                Entrer vos <strong>✏️notes</strong> de CI, CF.TP... pour chaque <strong>📘modules</strong>
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
+            <div className="flex items-center gap-2 mb-4 font-semibold text-xl">
+              <span className="text-yellow-500">🏅</span>
               <span className="text-gray-700">Obtenir instantanément votre moyenne semestrielle 📊</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
+            <div className="flex items-center gap-2 mb-4 font-semibold text-xl">
+              <span className="text-yellow-500">🏅</span>
               <span className="text-gray-700">Visualiser votre performance et évoluer sereinement</span>
             </div>
           </div>
         </div>
-
+      <div className="flex justify-center mt-14">
         <button
           onClick={handleContinue}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-all font-sans"
+          className="w-[450px] flex justify-center bg-gradient-to-r from-[#0288D1] to-[#4FC3F7] hover:from-[#4FC3F7] hover:to-[#0288D1] transition duration-900 hover:scale-102 text-white font-bold py-4 px-6 rounded-xl font-sans text-2xl"
         >
           Continue pour calculer
         </button>
+        </div>
       </div>
-    </div>
+    
   )
 }

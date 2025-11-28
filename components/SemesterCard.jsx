@@ -1,59 +1,80 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useState } from "react"
 
-export default function WelcomeCard() {
-  const router = useRouter()
+export default function SemesterCard({ onContinue }) {
+  const [selectedYear, setSelectedYear] = useState(null)
+  const [selectedSemester, setSelectedSemester] = useState(null)
 
-  const handleContinue = () => {
-    router.push("/semesters")
+  const years = [
+    { id: 1, label: "1ère Année", color: "bg-blue-500" },
+    { id: 2, label: "2ème Année", color: "bg-purple-500" },
+    { id: 3, label: "3ème Année", color: "bg-green-500" },
+    { id: 4, label: "4ème Année", color: "bg-indigo-500" },
+  ]
+
+  const semesters = [
+    { id: 1, label: "Semestre 1", color: "bg-yellow-400" },
+    { id: 2, label: "Semestre 2", color: "bg-orange-400" },
+  ]
+
+  const handleClick = () => {
+    if (selectedYear && selectedSemester) {
+      onContinue(selectedYear, selectedSemester)
+    }
   }
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4 bg-gray-800">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full border-t-4 border-blue-500">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center font-sans">
-          📚 <span className="text-blue-500">Prenez le contrôle de votre parcours académique !</span>
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gray-800">
+      <div className="bg-white rounded-lg shadow-2xl p-12 max-w-4xl w-full border-t-4 border-blue-500">
+        <h1 className="text-3xl font-bold text-gray-800 mb-12 text-center font-sans">
+          Bienvenue sur ESI-Moyenne. <span className="text-blue-500">Sélectionnez votre année et semestre</span>
         </h1>
 
-        <p className="text-gray-800 text-center mb-6 font-sans">
-          Bienvenue sur ESI-Moyenne, votre assistant intelligent pour calculer vos moyennes et suivre votre progression
-          tout au long de votre scolarité à l'ESI.
-        </p>
+        <div className="mb-12">
+          <h2 className="text-xl font-semibold text-gray-700 mb-6 font-sans">Années d'étude</h2>
+          <div className="grid grid-cols-4 gap-4">
+            {years.map((year) => (
+              <button
+                key={year.id}
+                onClick={() => setSelectedYear(year.id)}
+                className={`py-4 px-6 rounded-lg font-bold text-white transition-all transform hover:scale-105 font-sans text-lg ${
+                  selectedYear === year.id
+                    ? `${year.color} ring-4 ring-offset-2 ring-gray-800 shadow-lg`
+                    : `${year.color} hover:opacity-90`
+                }`}
+              >
+                {year.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-        <div className="mb-8 space-y-3 font-sans">
-          <p className="text-gray-700 mb-4">
-            Que vous soyez en 1re année ou en Master, cette plateforme vous permet en quelques clics de
-          </p>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
-              <span className="text-gray-700">
-                Choisir votre <strong>année</strong> et <strong>semestre</strong> d'étud
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
-              <span className="text-gray-700">
-                Entrer vos <strong>notes</strong> de CI, CF.TP... pour chaque <strong>modules</strong>
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
-              <span className="text-gray-700">Obtenir instantanément votre moyenne semestrielle 📊</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-500">✓</span>
-              <span className="text-gray-700">Visualiser votre performance et évoluer sereinement</span>
-            </div>
+        <div className="mb-12">
+          <h2 className="text-xl font-semibold text-gray-700 mb-6 font-sans">Semestres</h2>
+          <div className="grid grid-cols-2 gap-4">
+            {semesters.map((semester) => (
+              <button
+                key={semester.id}
+                onClick={() => setSelectedSemester(semester.id)}
+                className={`py-4 px-6 rounded-lg font-bold text-gray-800 transition-all transform hover:scale-105 font-sans text-lg ${
+                  selectedSemester === semester.id
+                    ? `${semester.color} ring-4 ring-offset-2 ring-gray-800 shadow-lg`
+                    : `${semester.color} hover:opacity-90`
+                }`}
+              >
+                {semester.label}
+              </button>
+            ))}
           </div>
         </div>
 
         <button
-          onClick={handleContinue}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-all font-sans"
+          onClick={handleClick}
+          disabled={!selectedYear || !selectedSemester}
+          className="w-full bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-lg transition-all font-sans text-lg"
         >
-          Continue pour calculer
+          Continuer pour remplir les notes
         </button>
       </div>
     </div>

@@ -19,15 +19,13 @@ export default function ResultsPage() {
       const decodedGrades = JSON.parse(atob(gradesParam))
       setGrades(decodedGrades)
 
-      const totalWeighted = decodedGrades.reduce((sum, g) => sum + g.grade * g.coefficient, 0)
-      const totalCoefficient = decodedGrades.reduce((sum, g) => sum + g.coefficient, 0)
-      const avg = totalWeighted / totalCoefficient
-      setAverage(avg.toFixed(2))
+      const totalAverage = decodedGrades.reduce((sum, g) => sum + g.average, 0) / decodedGrades.length
+      setAverage(totalAverage.toFixed(2))
     }
   }, [gradesParam])
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-800">
+    <div className="min-h-screen flex flex-col bg-gray-800 font-sans">
       <Header title="Vos résultats" />
       <ResultsCard year={year} semester={semester} grades={grades} average={average} />
     </div>
