@@ -52,7 +52,7 @@ export default function WelcomeCard() {
       <div className="flex justify-center mt-14">
         <button
           onClick={handleContinue}
-          className="w-[450px] flex justify-center bg-gradient-to-r from-[#0288D1] to-[#4FC3F7] hover:from-[#4FC3F7] hover:to-[#0288D1] transition duration-700 hover:scale-101 text-white font-bold py-4 px-6 rounded-xl font-sans text-2xl"
+          className="w-[320px] flex justify-center bg-gradient-to-r from-[#0288D1] to-[#4FC3F7] hover:from-[#4FC3F7] hover:to-[#0288D1] transition duration-700 hover:scale-101 text-white font-bold py-4 px-6 rounded-xl font-sans text-2xl"
         >
           Continue pour calculer
         </button>
