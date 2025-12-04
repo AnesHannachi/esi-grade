@@ -45,7 +45,7 @@ export default function SemesterCard({ onContinue }) {
               <button
                 key={year.id}
                 onClick={() => setSelectedYear(year.id)}
-                className={`py-4 px-6 pl-12 rounded-lg font-bold text-white transition-all transform hover:scale-105 font-sans text-lg relative flex items-center justify-center ${
+                className={`py-4 px-6 pl-12 rounded-lg font-bold text-white transition-all transform hover:scale-102 font-sans text-lg relative flex items-center justify-center ${
                   selectedYear === year.id
                     ? `${year.color} ring-4 ring-offset-2 ring-gray-800 shadow-lg`
                     : `${year.color} `
@@ -68,13 +68,13 @@ export default function SemesterCard({ onContinue }) {
            </h2>
            <h3 className="text-lg font-sans text-gray-400">Sélectionnez le semestre que vous souhaitez calculer.</h3>
           </div>
-            <div className="w-full max-w-[1192px] mx-auto">
+            <div className="w-full max-w-[1092px] mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {semesters.map((semester) => (
                   <button
                     key={semester.id}
                     onClick={() => setSelectedSemester(semester.id)}
-                    className={`py-4 px-6 rounded-lg font-bold transition-all transform hover:scale-105 font-sans text-lg flex flex-col items-center justify-center ${
+                    className={`py-4 px-4 rounded-xl font-bold transition-all transform hover:scale-102 font-sans text-lg flex flex-col items-center justify-center ${
                       selectedSemester === semester.id
                         ? `${semester.color} ring-4 ring-offset-2 ring-gray-800 shadow-lg`
                         : `${semester.color} `
