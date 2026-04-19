@@ -11,8 +11,8 @@ export default function SemestersPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-800 font-sans">
-      <Header title="Sélection année/semestre" />
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <Header title="Sélection" />
       <SemesterCard onContinue={handleContinue} />
     </div>
   )

@@ -1,23 +1,68 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
+
+const years = [
+  {
+    id: 1,
+    label: "1ère Année",
+    icon: "🌱",
+    color: "linear-gradient(135deg, #3B82F6, #5EA6FF)",
+    glow: "rgba(59,130,246,0.35)",
+    border: "rgba(59,130,246,0.5)",
+    desc: "Fondamentaux & découverte",
+  },
+  {
+    id: 2,
+    label: "2ème Année",
+    icon: "🚀",
+    color: "linear-gradient(135deg, #22c55e, #75e59c)",
+    glow: "rgba(34,197,94,0.35)",
+    border: "rgba(34,197,94,0.5)",
+    desc: "Algorithmique & réseaux",
+  },
+  {
+    id: 3,
+    label: "3ème Année",
+    icon: "⚡",
+    color: "linear-gradient(135deg, #a855f7, #cea2ff)",
+    glow: "rgba(168,85,247,0.35)",
+    border: "rgba(168,85,247,0.5)",
+    desc: "IA & Cloud Computing",
+  },
+  {
+    id: 4,
+    label: "4ème Année",
+    icon: "🎓",
+    color: "linear-gradient(135deg, #ef4444, #ff8a8a)",
+    glow: "rgba(239,68,68,0.35)",
+    border: "rgba(239,68,68,0.5)",
+    desc: "Projet professionnel",
+  },
+]
+
+const semesters = [
+  {
+    id: 1,
+    label: "Semestre 1",
+    icon: "🍂",
+    desc: "Septembre → Janvier",
+    color: "linear-gradient(135deg, #4f8ef7, #22d3ee)",
+    glow: "rgba(79,142,247,0.3)",
+  },
+  {
+    id: 2,
+    label: "Semestre 2",
+    icon: "🌸",
+    desc: "Février → Juin",
+    color: "linear-gradient(135deg, #34d399, #06b6d4)",
+    glow: "rgba(52,211,153,0.3)",
+  },
+]
 
 export default function SemesterCard({ onContinue }) {
   const [selectedYear, setSelectedYear] = useState(null)
   const [selectedSemester, setSelectedSemester] = useState(null)
-
-  const years = [
-    { id: 1, label: "1ère Année", color: "bg-gradient-to-r from-[#3B82F6] to-[#5EA6FF]", icon: "/frame.svg" },
-    { id: 2, label: "2ème Année", color: "bg-gradient-to-r from-[#22c55e] to-[#75e59c]", icon: "/frame1.svg" },
-    { id: 3, label: "3ème Année", color: "bg-gradient-to-r from-[#a855f7] to-[#cea2ff]", icon: "/frame2.svg" },
-    { id: 4, label: "4ème Année", color: "bg-gradient-to-r from-[#ef4444] to-[#ff8a8a] ", icon: "/vector4.svg" },
-  ]
-
-  const semesters = [
-    { id: 1, label: "Semestre 1", color: "bg-gradient-to-r from-[#53E0F8] to-[#108F9E]", description: "Première moitié de l’année universitaire" },
-    { id: 2, label: "Semestre 2", color: "bg-gradient-to-r from-[#36C0B1] to-[#108F9E]" , description: "deuxieme moitié de l’année universitaire"},
-  ]
 
   const handleClick = () => {
     if (selectedYear && selectedSemester) {
@@ -26,85 +71,187 @@ export default function SemesterCard({ onContinue }) {
   }
 
   return (
-    
-      <div className="bg-white rounded-lg shadow-2xl p-12 h-full w-full border-t-4 border-blue-500">
-        <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-[#121212] to-[#f6f6f6] bg-clip-text text-transparent mb-12 text-center font-sans">
-          Bienvenue sur ESI-Moyenne. 
-        </h1>
-         <p className="text-center"><span className="text-2xl font-sans font-semibold text-gray-700 md:text-4xl ">Calculez facilement votre moyenne et suivez vos progrès académiques tout au long de votre parcours à l'ESI.</span></p>
-        <div className="w-full max-w-[1192px] mb-15 mt-12 pb-9 shadow-lg p-6 rounded-xl border-t border-gray-200 mx-auto"> 
-         <div className="mb-6 text-center" >
-           <h2 className="text-3xl font-semibold text-gray-700  font-sans flex items-center justify-center md:text-lg">
-            <Image src="/div.svg" alt="décoration" width={64} height={64} className="mr-4" />
-            <span>Sélectionnez votre année académique</span>
-           </h2>
-           <h3 className="text-lg font-sans text-gray-400">               Choisissez l’année que vous êtes en train d’étudier.</h3>
+    <div
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "48px 24px",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Orbs */}
+      <div className="orb orb-blue" style={{ width: "400px", height: "400px", top: "-100px", right: "-100px", opacity: 0.25, animationDelay: "1s" }} />
+      <div className="orb orb-purple" style={{ width: "350px", height: "350px", bottom: "-50px", left: "-80px", opacity: 0.15, animationDelay: "3s" }} />
+
+      <div style={{ maxWidth: "900px", width: "100%", position: "relative", zIndex: 1 }}>
+
+        {/* Header */}
+        <div className="animate-slide-up" style={{ textAlign: "center", marginBottom: "48px" }}>
+          <div className="badge" style={{ marginBottom: "20px", display: "inline-flex" }}>
+            Étape 1 sur 2
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {years.map((year) => (
-              <button
-                key={year.id}
-                onClick={() => setSelectedYear(year.id)}
-                className={`py-4 px-6 pl-12 rounded-lg font-bold text-white transition-all transform hover:scale-102 font-sans text-lg relative flex items-center justify-center ${
-                  selectedYear === year.id
-                    ? `${year.color} ring-4 ring-offset-2 ring-gray-800 shadow-lg`
-                    : `${year.color} `
-                }`}
-              >
-                <Image src={year.icon} alt="icon" width={20} height={20} className="absolute left-3 top-1/2 -translate-y-1/2" />
-                <span>{year.label}</span>
-              </button>
-            ))}
+          <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1.2, color: "#f0f4ff", marginBottom: "12px" }}>
+            Choisissez votre <span className="gradient-text">profil académique</span>
+          </h1>
+          <p style={{ color: "var(--text-secondary)", fontSize: "1rem" }}>
+            Sélectionnez votre année et votre semestre pour commencer
+          </p>
+        </div>
+
+        {/* Year selection */}
+        <div className="animate-slide-up-delay-1" style={{ marginBottom: "32px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+            <div style={{ width: "4px", height: "20px", borderRadius: "2px", background: "linear-gradient(135deg, #4f8ef7, #22d3ee)" }} />
+            <h2 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-secondary)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+              Année académique
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px" }}>
+            {years.map((year) => {
+              const isSelected = selectedYear === year.id
+              return (
+                <button
+                  key={year.id}
+                  onClick={() => setSelectedYear(year.id)}
+                  style={{
+                    background: isSelected ? year.color : "rgba(255,255,255,0.04)",
+                    border: `1px solid ${isSelected ? year.border : "rgba(255,255,255,0.1)"}`,
+                    borderRadius: "16px",
+                    padding: "20px 16px",
+                    cursor: "pointer",
+                    transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+                    textAlign: "left",
+                    boxShadow: isSelected ? `0 8px 32px ${year.glow}, inset 0 1px 0 rgba(255,255,255,0.2)` : "0 2px 8px rgba(0,0,0,0.2)",
+                    transform: isSelected ? "translateY(-3px) scale(1.02)" : "translateY(0) scale(1)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    outline: isSelected ? `2px solid ${year.border}` : "none",
+                    outlineOffset: "2px",
+                  }}
+                >
+                  <div style={{ fontSize: "1.8rem", marginBottom: "8px" }}>{year.icon}</div>
+                  <div style={{ fontWeight: 800, fontSize: "1rem", color: "#f0f4ff", marginBottom: "4px" }}>{year.label}</div>
+                  <div style={{ fontSize: "0.78rem", color: isSelected ? "rgba(255,255,255,0.75)" : "var(--text-muted)", lineHeight: 1.4 }}>{year.desc}</div>
+                </button>
+              )
+            })}
           </div>
         </div>
 
-        <div className="mb-12">
-          
-          <div className="w-full max-w-[1192px] mb-15 mt-12 pb-9 shadow-lg p-6 rounded-xl border-t border-gray-200 mx-auto"> 
-         <div className="mb-6 text-center" >
-           <h2 className="text-3xl font-semibold text-gray-700  font-sans flex items-center justify-center">
-            <Image src="/div2.svg" alt="décoration" width={64} height={64} className="mr-6" />
-            <span>Sélectionnez votre semestre</span>
-           </h2>
-           <h3 className="text-lg font-sans text-gray-400">Sélectionnez le semestre que vous souhaitez calculer.</h3>
+        {/* Semester selection */}
+        <div className="animate-slide-up-delay-2" style={{ marginBottom: "36px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+            <div style={{ width: "4px", height: "20px", borderRadius: "2px", background: "linear-gradient(135deg, #34d399, #06b6d4)" }} />
+            <h2 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-secondary)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+              Semestre
+            </h2>
           </div>
-            <div className="w-full max-w-[1092px] mx-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {semesters.map((semester) => (
-                  <button
-                    key={semester.id}
-                    onClick={() => setSelectedSemester(semester.id)}
-                    className={`py-4 px-4 rounded-xl font-bold transition-all transform hover:scale-102 font-sans text-lg flex flex-col items-center justify-center ${
-                      selectedSemester === semester.id
-                        ? `${semester.color} ring-4 ring-offset-2 ring-gray-800 shadow-lg`
-                        : `${semester.color} `
-                    }`}
-                  >
-                    <span className="text-lg">{semester.label}</span>
-                    <span className="text-xs font-medium mt-1">{semester.description}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "12px" }}>
+            {semesters.map((sem) => {
+              const isSelected = selectedSemester === sem.id
+              return (
+                <button
+                  key={sem.id}
+                  onClick={() => setSelectedSemester(sem.id)}
+                  style={{
+                    background: isSelected ? sem.color : "rgba(255,255,255,0.04)",
+                    border: `1px solid ${isSelected ? "rgba(79,142,247,0.6)" : "rgba(255,255,255,0.1)"}`,
+                    borderRadius: "16px",
+                    padding: "22px 24px",
+                    cursor: "pointer",
+                    transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "16px",
+                    boxShadow: isSelected ? `0 8px 32px ${sem.glow}, inset 0 1px 0 rgba(255,255,255,0.2)` : "0 2px 8px rgba(0,0,0,0.2)",
+                    transform: isSelected ? "translateY(-3px)" : "translateY(0)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    outline: isSelected ? "2px solid rgba(79,142,247,0.5)" : "none",
+                    outlineOffset: "2px",
+                  }}
+                >
+                  <div style={{ fontSize: "2rem" }}>{sem.icon}</div>
+                  <div style={{ textAlign: "left" }}>
+                    <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "#f0f4ff", marginBottom: "2px" }}>{sem.label}</div>
+                    <div style={{ fontSize: "0.82rem", color: isSelected ? "rgba(255,255,255,0.75)" : "var(--text-muted)" }}>{sem.desc}</div>
+                  </div>
+                  {isSelected && (
+                    <div
+                      style={{
+                        marginLeft: "auto",
+                        width: "22px",
+                        height: "22px",
+                        borderRadius: "50%",
+                        background: "rgba(255,255,255,0.25)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "12px",
+                        color: "white",
+                        fontWeight: 700,
+                      }}
+                    >
+                      ✓
+                    </div>
+                  )}
+                </button>
+              )
+            })}
           </div>
         </div>
-        <div className="w-full max-w-[1192px] mx-auto mt-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button
-              onClick={handleClick}
-              disabled={!selectedYear || !selectedSemester}
-              className='bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-lg transition-all font-sans text-lg flex items-center justify-center'
-            >
-              Continuer pour remplir les notes
-            </button>
-            <button
-              onClick={() => { setSelectedYear(null); setSelectedSemester(null); }}
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-4 px-6 rounded-lg transition-all font-sans text-lg flex items-center justify-center"
-            >
-              réinitialiser
-            </button>
-          </div>
+
+        {/* Actions */}
+        <div className="animate-slide-up-delay-3" style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+          <button
+            onClick={handleClick}
+            disabled={!selectedYear || !selectedSemester}
+            className="btn-primary"
+            style={{ flex: 1, minWidth: "200px", fontSize: "1rem", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}
+          >
+            <span>Continuer pour saisir les notes</span>
+            <span>→</span>
+          </button>
+          <button
+            onClick={() => { setSelectedYear(null); setSelectedSemester(null) }}
+            className="btn-secondary"
+            style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: "8px" }}
+          >
+            <span>↺</span> Réinitialiser
+          </button>
         </div>
+
+        {/* Selection summary */}
+        {(selectedYear || selectedSemester) && (
+          <div
+            className="animate-fade-in"
+            style={{
+              marginTop: "20px",
+              padding: "14px 20px",
+              borderRadius: "12px",
+              background: "rgba(79,142,247,0.08)",
+              border: "1px solid rgba(79,142,247,0.2)",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "0.9rem",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <span style={{ color: "var(--accent-blue)", fontSize: "1rem" }}>ℹ</span>
+            <span>
+              Sélection :{" "}
+              {selectedYear && <strong style={{ color: "#f0f4ff" }}>{years.find((y) => y.id === selectedYear)?.label}</strong>}
+              {selectedYear && selectedSemester && <span style={{ margin: "0 6px" }}>·</span>}
+              {selectedSemester && <strong style={{ color: "#f0f4ff" }}>{semesters.find((s) => s.id === selectedSemester)?.label}</strong>}
+            </span>
+          </div>
+        )}
       </div>
+    </div>
   )
 }

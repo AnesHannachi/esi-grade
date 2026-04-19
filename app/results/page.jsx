@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Header from "@/components/Header"
 import ResultsCard from "@/components/ResultsCard"
 
-export default function ResultsPage() {
+function ResultsContent() {
   const searchParams = useSearchParams()
   const year = searchParams.get("year")
   const semester = searchParams.get("semester")
@@ -18,16 +18,27 @@ export default function ResultsPage() {
     if (gradesParam) {
       const decodedGrades = JSON.parse(atob(gradesParam))
       setGrades(decodedGrades)
-
       const totalAverage = decodedGrades.reduce((sum, g) => sum + g.average, 0) / decodedGrades.length
       setAverage(totalAverage.toFixed(2))
     }
   }, [gradesParam])
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-800 font-sans">
-      <Header title="Vos résultats" />
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <Header title="Résultats" />
       <ResultsCard year={year} semester={semester} grades={grades} average={average} />
     </div>
+  )
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+        Chargement…
+      </div>
+    }>
+      <ResultsContent />
+    </Suspense>
   )
 }

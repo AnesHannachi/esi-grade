@@ -15,7 +15,7 @@ export default function GradesPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-800 font-sans">
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Header title="Saisie des notes" />
       <GradesForm year={year} semester={semester} onSubmit={handleSubmit} />
     </div>
