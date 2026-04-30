@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { exportToExcel, exportToPDF } from "@/lib/exportUtils"
 
 /* ── helpers ── */
 const getScoreColor  = (s) => s >= 16 ? "#34d399" : s >= 14 ? "#4f8ef7" : s >= 10 ? "#fb923c" : "#ef4444"
-const getScoreLabel  = (s) => s >= 16 ? "Excellent 🏆" : s >= 14 ? "Très Bien ⭐" : s >= 10 ? "Passable 📚" : "Insuffisant ⚠️"
+const getScoreLabel  = (s) => s >= 16 ? "Excellent 🏆" : s >= 14 ? "Très Bien ⭐" : s >= 10 ? "Passable" : "Insuffisant ⚠️"
 const getScoreGrad   = (s) => s >= 16
   ? "linear-gradient(135deg,#34d399,#06b6d4)"
   : s >= 14
@@ -184,6 +185,24 @@ export default function ResultsCard({ year, semester, grades, average }) {
   const grad    = getScoreGrad(avg)
   const label   = getScoreLabel(avg)
 
+  const [exporting, setExporting] = useState(null) // 'excel' | 'pdf' | null
+  const [exportDone, setExportDone] = useState(null)
+
+  const handleExport = async (type) => {
+    setExporting(type)
+    try {
+      const payload = { year, semester, grades, average }
+      if (type === "excel") await exportToExcel(payload)
+      else await exportToPDF(payload)
+      setExportDone(type)
+      setTimeout(() => setExportDone(null), 2500)
+    } catch (err) {
+      console.error("Export error:", err)
+    } finally {
+      setExporting(null)
+    }
+  }
+
   /* derived stats */
   const best    = grades.length ? grades.reduce((b, g) => g.average > b.average ? g : b, grades[0]) : null
   const worst   = grades.length ? grades.reduce((b, g) => g.average < b.average ? g : b, grades[0]) : null
@@ -336,16 +355,97 @@ export default function ResultsCard({ year, semester, grades, average }) {
         </div>
 
         {/* ── Actions ── */}
-        <div className="animate-slide-up-delay-4" style={{ display:"flex", gap:"12px", flexWrap:"wrap" }}>
-          <button onClick={() => router.push("/semesters")} className="btn-secondary" style={{ flex:1, minWidth:"160px", display:"flex", alignItems:"center", justifyContent:"center", gap:"8px" }}>
-            ← Retour semestres
-          </button>
-          <button onClick={() => router.push("/grades")} className="btn-secondary" style={{ flex:1, minWidth:"160px", display:"flex", alignItems:"center", justifyContent:"center", gap:"8px" }}>
-            ↺ Nouveau calcul
-          </button>
-          <button onClick={() => router.push("/")} className="btn-primary" style={{ flex:1, minWidth:"160px", display:"flex", alignItems:"center", justifyContent:"center", gap:"8px" }}>
-            🏠 Accueil
-          </button>
+        <div className="animate-slide-up-delay-4" style={{ display:"flex", flexDirection:"column", gap:"16px" }}>
+
+          {/* Export panel */}
+          <div className="glass-card" style={{ padding:"20px 24px" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"16px" }}>
+              <div style={{ width:"4px", height:"18px", borderRadius:"2px", background:"linear-gradient(135deg,#a78bfa,#4f8ef7)" }} />
+              <span style={{ fontWeight:700, fontSize:"0.95rem", color:"#f0f4ff" }}>Exporter les résultats</span>
+            </div>
+            <div style={{ display:"flex", gap:"12px", flexWrap:"wrap" }}>
+
+              {/* Excel button */}
+              <button
+                onClick={() => handleExport("excel")}
+                disabled={!!exporting}
+                style={{
+                  flex:1, minWidth:"180px",
+                  display:"flex", alignItems:"center", justifyContent:"center", gap:"10px",
+                  padding:"14px 20px",
+                  borderRadius:"14px",
+                  border:"1px solid rgba(52,211,153,0.35)",
+                  background: exportDone==="excel" ? "rgba(52,211,153,0.2)" : "rgba(52,211,153,0.1)",
+                  color: exportDone==="excel" ? "#34d399" : "#34d399",
+                  fontWeight:700, fontSize:"0.95rem",
+                  cursor: exporting ? "not-allowed" : "pointer",
+                  opacity: exporting && exporting!=="excel" ? 0.5 : 1,
+                  transition:"all 0.3s",
+                  position:"relative", overflow:"hidden",
+                }}
+              >
+                {exporting==="excel" ? (
+                  <><span style={{ animation:"spin 1s linear infinite", display:"inline-block" }}>⏳</span> Export en cours…</>
+                ) : exportDone==="excel" ? (
+                  <><span>✅</span> Téléchargé !</>
+                ) : (
+                  <>
+                    <span style={{ fontSize:"1.3rem" }}>📊</span>
+                    <div style={{ textAlign:"left" }}>
+                      <div>Exporter en Excel</div>
+                      <div style={{ fontSize:"0.72rem", fontWeight:500, opacity:0.7 }}>Format .xlsx · 3 feuilles détaillées</div>
+                    </div>
+                  </>
+                )}
+              </button>
+
+              {/* PDF button */}
+              <button
+                onClick={() => handleExport("pdf")}
+                disabled={!!exporting}
+                style={{
+                  flex:1, minWidth:"180px",
+                  display:"flex", alignItems:"center", justifyContent:"center", gap:"10px",
+                  padding:"14px 20px",
+                  borderRadius:"14px",
+                  border:"1px solid rgba(239,68,68,0.35)",
+                  background: exportDone==="pdf" ? "rgba(239,68,68,0.2)" : "rgba(239,68,68,0.08)",
+                  color:"#ef4444",
+                  fontWeight:700, fontSize:"0.95rem",
+                  cursor: exporting ? "not-allowed" : "pointer",
+                  opacity: exporting && exporting!=="pdf" ? 0.5 : 1,
+                  transition:"all 0.3s",
+                }}
+              >
+                {exporting==="pdf" ? (
+                  <><span style={{ animation:"spin 1s linear infinite", display:"inline-block" }}>⏳</span> Génération PDF…</>
+                ) : exportDone==="pdf" ? (
+                  <><span>✅</span> Téléchargé !</>
+                ) : (
+                  <>
+                    <span style={{ fontSize:"1.3rem" }}>📄</span>
+                    <div style={{ textAlign:"left" }}>
+                      <div>Exporter en PDF</div>
+                      <div style={{ fontSize:"0.72rem", fontWeight:500, opacity:0.7 }}>Format A4 · Mise en page premium</div>
+                    </div>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Navigation buttons */}
+          <div style={{ display:"flex", gap:"12px", flexWrap:"wrap" }}>
+            <button onClick={() => router.push("/semesters")} className="btn-secondary" style={{ flex:1, minWidth:"160px", display:"flex", alignItems:"center", justifyContent:"center", gap:"8px" }}>
+              ← Retour semestres
+            </button>
+            <button onClick={() => router.push("/grades")} className="btn-secondary" style={{ flex:1, minWidth:"160px", display:"flex", alignItems:"center", justifyContent:"center", gap:"8px" }}>
+              ↺ Nouveau calcul
+            </button>
+            <button onClick={() => router.push("/")} className="btn-primary" style={{ flex:1, minWidth:"160px", display:"flex", alignItems:"center", justifyContent:"center", gap:"8px" }}>
+              🏠 Accueil
+            </button>
+          </div>
         </div>
       </div>
     </div>

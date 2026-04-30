@@ -105,7 +105,7 @@ body {
   width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
   border-radius:var(--radius-input); padding:12px 16px; color:var(--text-primary);
   font-family:'Inter',sans-serif; font-size:1rem; font-weight:500;
-  transition:all 0.25s; outline:none; -moz-appearance:textfield;
+  transition:all 0.25s; outline:none;
 }
 .grade-input::-webkit-outer-spin-button,.grade-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 .grade-input::placeholder{color:var(--text-muted);}
@@ -152,6 +152,7 @@ body {
 @keyframes shimmer { 0%{background-position:-200% center;}100%{background-position:200% center;} }
 @keyframes bounce-subtle { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
 @keyframes spin-slow { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
+@keyframes spin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
 @keyframes counter-spin { from{transform:rotate(0deg);}to{transform:rotate(-360deg);} }
 @keyframes bar-grow { from{height:0;}to{height:var(--bar-h);} }
 @keyframes ring-fill { from{stroke-dashoffset:283;}to{stroke-dashoffset:var(--dash-offset);} }
