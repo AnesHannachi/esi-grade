@@ -10,14 +10,13 @@ const CONTROL_TYPES = [
   { key: "CF", label: "Contrôle Final",           abbr: "CF",  color: "#22d3ee", bg: "rgba(34,211,238,0.15)" },
   { key: "TP", label: "Travaux Pratiques",        abbr: "TP",  color: "#34d399", bg: "rgba(52,211,153,0.15)" },
   { key: "TD", label: "Travaux Dirigés",          abbr: "TD",  color: "#fb923c", bg: "rgba(251,146,60,0.15)" },
-  { key: "EX", label: "Examen Final",             abbr: "EX",  color: "#f472b6", bg: "rgba(244,114,182,0.15)" },
+
 ]
 
 // Each module uses its own defaultControls from coursesData (see lib/coursesData.jsx)
 // UUIDs are added at runtime to ensure each control row has a unique React key
 const makeControls = (defs) =>
   defs.map((d) => ({ ...d, id: crypto.randomUUID() }))
-
 const getTypeInfo = (key) => CONTROL_TYPES.find((t) => t.key === key) || CONTROL_TYPES[0]
 
 // ─── Helper ─────────────────────────────────────────────────────────────────────
@@ -351,7 +350,7 @@ function ModuleCard({ module, idx, onChange }) {
             transition: "all 0.2s",
           }}
         >
-          <span style={{ fontSize: "1rem" }}>+</span> Ajouter un contrôle
+          <span style={{ fontSize: "1rem" }}>+</span> Ajouter
         </button>
       )}
     </div>
