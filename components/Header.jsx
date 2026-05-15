@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 
 const steps = [
@@ -10,7 +11,7 @@ const steps = [
   { href: "/results", label: "Résultats", step: 3 },
 ]
 
-export default function Header({ title = "ESI-Moyenne", currentStep = -1 }) {
+export default function Header({ title = "ESI-Grade", currentStep = -1 }) {
   const pathname = usePathname()
 
   const activeStep = steps.findIndex((s) => pathname === s.href || pathname.startsWith(s.href + "?"))
@@ -41,35 +42,15 @@ export default function Header({ title = "ESI-Moyenne", currentStep = -1 }) {
         }}
       >
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
-          <div
-            style={{
-              width: "34px",
-              height: "34px",
-              borderRadius: "10px",
-              background: "linear-gradient(135deg, #4f8ef7, #22d3ee)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "16px",
-              boxShadow: "0 4px 16px rgba(79,142,247,0.4)",
-            }}
-          >
-            📚
-          </div>
-          <span
-            style={{
-              fontWeight: 800,
-              fontSize: "1.1rem",
-              background: "linear-gradient(135deg, #4f8ef7, #22d3ee)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            ESI-Moyenne
-          </span>
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
+          <Image
+            src="/esi-grade-logo.png"
+            alt="ESI Grade"
+            width={160}
+            height={160}
+            style={{ objectFit: "contain", filter: "drop-shadow(0 0 12px rgba(79,142,247,0.4))" }}
+            priority
+          />
         </Link>
 
         {/* Step indicators */}

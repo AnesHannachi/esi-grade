@@ -53,14 +53,14 @@ export default function WelcomeCard() {
             Prenez le contrôle de{" "}
           </h1>
           <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.03em" }}>
-            <span className="gradient-text">votre parcours académique</span>{" "}🚀
+            <span className="gradient-text">votre parcours académique</span>
           </h1>
         </div>
 
         {/* Subtitle */}
         <div className="animate-slide-up-delay-2" style={{ textAlign: "center", marginBottom: "52px" }}>
           <p style={{ fontSize: "1.15rem", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "600px", margin: "0 auto" }}>
-            Bienvenue sur <strong style={{ color: "#f0f4ff" }}>ESI-Moyenne</strong> — votre assistant intelligent pour
+            Bienvenue sur <strong style={{ color: "#f0f4ff" }}>ESI-Grade</strong> - votre assistant intelligent pour
             calculer vos moyennes et suivre votre progression tout au long de votre scolarité.
           </p>
         </div>

@@ -8,7 +8,7 @@ const inter = Inter({
 })
 
 export const metadata = {
-  title: "ESI-Moyenne — Calculez vos moyennes",
+  title: "ESI-Grade — Calculez vos moyennes",
   description: "Votre assistant intelligent pour calculer vos moyennes et suivre votre progression à l'ESI.",
 }
 

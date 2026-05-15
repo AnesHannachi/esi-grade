@@ -18,7 +18,9 @@ function ResultsContent() {
     if (gradesParam) {
       const decodedGrades = JSON.parse(atob(gradesParam))
       setGrades(decodedGrades)
-      const totalAverage = decodedGrades.reduce((sum, g) => sum + g.average, 0) / decodedGrades.length
+      const totalWeighted = decodedGrades.reduce((sum, g) => sum + g.average * (g.coefficient ?? 1), 0)
+      const totalCoeff    = decodedGrades.reduce((sum, g) => sum + (g.coefficient ?? 1), 0)
+      const totalAverage  = totalCoeff > 0 ? totalWeighted / totalCoeff : 0
       setAverage(totalAverage.toFixed(2))
     }
   }, [gradesParam])

@@ -7,14 +7,14 @@ export const coursesData = {
     // ── Semestre 1 ──────────────────────────────────────────────────────────────
     1: [
       {
-        id: 1, name: "Bureautique et Web",
+        id: 1, name: "Bureautique et Web", coefficient: 1,
         defaultControls: [
           { type: "CC", percent: 40, value: "" },
           { type: "CF", percent: 60, value: "" },
         ],
       },
       {
-        id: 2, name: "Algorithmique et Structures de Données Statiques",
+        id: 2, name: "Algorithmique et Structures de Données Statiques", coefficient: 3,
         defaultControls: [
           { type: "TP", percent: 20, value: "" },
           { type: "CI", percent: 30, value: "" },
@@ -22,14 +22,14 @@ export const coursesData = {
         ],
       },
       {
-        id: 3, name: "Architectures des ordinateurs 1",
+        id: 3, name: "Architectures des ordinateurs 1", coefficient: 2,
         defaultControls: [
           { type: "CI", percent: 50, value: "" },
           { type: "CF", percent: 50, value: "" },
         ],
       },
       {
-        id: 4, name: "Introduction au Système d'exploitation 1",
+        id: 4, name: "Introduction au Système d'exploitation 1", coefficient: 2,
         defaultControls: [
           { type: "TP", percent: 20, value: "" },
           { type: "CC", percent: 30, value: "" },
@@ -37,21 +37,21 @@ export const coursesData = {
         ],
       },
       {
-        id: 5, name: "Algèbre 1",
+        id: 5, name: "Algèbre 1", coefficient: 3,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 6, name: "Analyse mathématique 1",
+        id: 6, name: "Analyse mathématique 1", coefficient: 3,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 7, name: "Électricité",
+        id: 7, name: "Électricité", coefficient: 2,
         defaultControls: [
           { type: "CC", percent: 25, value: "" },
           { type: "CI", percent: 25, value: "" },
@@ -59,7 +59,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 8, name: "Technique d'expression écrite",
+        id: 8, name: "Technique d'expression écrite", coefficient: 1,
         defaultControls: [
           { type: "CC", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
@@ -70,7 +70,7 @@ export const coursesData = {
     // ── Semestre 2 ──────────────────────────────────────────────────────────────
     2: [
       {
-        id: 1, name: "Algorithmique et Structure de données dynamique",
+        id: 1, name: "Algorithmique et Structure de données dynamique", coefficient: 3,
         defaultControls: [
           { type: "TP", percent: 20, value: "" },
           { type: "CI", percent: 30, value: "" },
@@ -78,7 +78,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 2, name: "Introduction aux systèmes d'exploitation 2",
+        id: 2, name: "Introduction aux systèmes d'exploitation 2", coefficient: 2,
         defaultControls: [
           { type: "TP", percent: 20, value: "" },
           { type: "CC", percent: 30, value: "" },
@@ -86,21 +86,21 @@ export const coursesData = {
         ],
       },
       {
-        id: 3, name: "Algèbre 2",
+        id: 3, name: "Algèbre 2", coefficient: 3,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 4, name: "Analyse 2",
+        id: 4, name: "Analyse 2", coefficient: 3,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 5, name: "Électronique fondamentale 1",
+        id: 5, name: "Électronique fondamentale 1", coefficient: 2,
         defaultControls: [
           { type: "CC", percent: 25, value: "" },
           { type: "CI", percent: 25, value: "" },
@@ -108,7 +108,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 6, name: "Mécanique du point",
+        id: 6, name: "Mécanique du point", coefficient: 2,
         defaultControls: [
           { type: "CI", percent: 25, value: "" },
           { type: "CC", percent: 25, value: "" },
@@ -116,14 +116,14 @@ export const coursesData = {
         ],
       },
       {
-        id: 7, name: "Anglais 1",
+        id: 7, name: "Anglais 1", coefficient: 1,
         defaultControls: [
           { type: "CC", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 8, name: "Techniques d'expression orale",
+        id: 8, name: "Techniques d'expression orale", coefficient: 1,
         defaultControls: [
           { type: "CC", percent: 67, value: "" },
           { type: "CF", percent: 33, value: "" },
@@ -139,14 +139,14 @@ export const coursesData = {
     // ── Semestre 1 ──────────────────────────────────────────────────────────────
     1: [
       {
-        id: 1, name: "Économie",
+        id: 1, name: "Économie", coefficient: 1,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 2, name: "Architecture des ordinateurs 2",
+        id: 2, name: "Architecture des ordinateurs 2", coefficient: 2,
         defaultControls: [
           { type: "TP", percent: 33, value: "" },
           { type: "CI", percent: 33, value: "" },
@@ -154,7 +154,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 3, name: "Structure Fichiers et Structures de Données",
+        id: 3, name: "Structure Fichiers et Structures de Données", coefficient: 3,
         defaultControls: [
           { type: "TP", percent: 20, value: "" },
           { type: "CI", percent: 30, value: "" },
@@ -162,21 +162,21 @@ export const coursesData = {
         ],
       },
       {
-        id: 4, name: "Algèbre 3",
+        id: 4, name: "Algèbre 3", coefficient: 3,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 5, name: "Analyse 3",
+        id: 5, name: "Analyse 3", coefficient: 3,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 6, name: "Électronique fondamentale 2",
+        id: 6, name: "Électronique fondamentale 2", coefficient: 2,
         defaultControls: [
           { type: "CC", percent: 25, value: "" },
           { type: "CI", percent: 25, value: "" },
@@ -184,14 +184,14 @@ export const coursesData = {
         ],
       },
       {
-        id: 7, name: "Probabilités et statistiques",
+        id: 7, name: "Probabilités et statistiques", coefficient: 2,
         defaultControls: [
           { type: "CI", percent: 50, value: "" },
           { type: "CF", percent: 50, value: "" },
         ],
       },
       {
-        id: 8, name: "Anglais 2",
+        id: 8, name: "Anglais 2", coefficient: 1,
         defaultControls: [
           { type: "CC", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
@@ -202,7 +202,7 @@ export const coursesData = {
     // ── Semestre 2 ──────────────────────────────────────────────────────────────
     2: [
       {
-        id: 1, name: "Programmation Orientée Objet",
+        id: 1, name: "Programmation Orientée Objet", coefficient: 3,
         defaultControls: [
           { type: "TP", percent: 30, value: "" },
           { type: "CC", percent: 20, value: "" },
@@ -210,7 +210,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 2, name: "Introduction aux systèmes d'information",
+        id: 2, name: "Introduction aux systèmes d'information", coefficient: 2,
         defaultControls: [
           { type: "CI", percent: 25, value: "" },
           { type: "CC", percent: 25, value: "" },
@@ -218,14 +218,14 @@ export const coursesData = {
         ],
       },
       {
-        id: 3, name: "Analyse 4",
+        id: 3, name: "Analyse 4", coefficient: 3,
         defaultControls: [
           { type: "CI", percent: 33, value: "" },
           { type: "CF", percent: 67, value: "" },
         ],
       },
       {
-        id: 4, name: "Logique Mathématique",
+        id: 4, name: "Logique Mathématique", coefficient: 2,
         defaultControls: [
           { type: "CC", percent: 20, value: "" },
           { type: "CC", percent: 30, value: "" },
@@ -233,7 +233,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 5, name: "Optique et Ondes électromagnétiques",
+        id: 5, name: "Optique et Ondes électromagnétiques", coefficient: 2,
         defaultControls: [
           { type: "CC", percent: 20, value: "" },
           { type: "CI", percent: 30, value: "" },
@@ -241,20 +241,20 @@ export const coursesData = {
         ],
       },
       {
-        id: 6, name: "Projet Pluridisciplinaire",
+        id: 6, name: "Projet Pluridisciplinaire", coefficient: 2,
         defaultControls: [
           { type: "CF", percent: 100, value: "" },
         ],
       },
       {
-        id: 7, name: "Probabilités et Statistiques 2",
+        id: 7, name: "Probabilités et Statistiques 2", coefficient: 2,
         defaultControls: [
           { type: "CI", percent: 50, value: "" },
           { type: "CF", percent: 50, value: "" },
         ],
       },
       {
-        id: 8, name: "Anglais 3",
+        id: 8, name: "Anglais 3", coefficient: 1,
         defaultControls: [
           { type: "CC", percent: 40, value: "" },
           { type: "CF", percent: 60, value: "" },
@@ -270,7 +270,7 @@ export const coursesData = {
     // ── Semestre 1 ──────────────────────────────────────────────────────────────
     1: [
       {
-        id: 1, name: "Réseaux 1",
+        id: 1, name: "Réseaux 1", coefficient: 4,
         defaultControls: [
           { type: "TP", percent: 10, value: "" },
           { type: "CC", percent: 5, value: "" },
@@ -279,7 +279,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 2, name: "Systèmes d'exploitation 1",
+        id: 2, name: "Systèmes d'exploitation 1", coefficient: 5,
         defaultControls: [
           { type: "TP", percent: 20, value: "" },
           { type: "CI", percent: 40, value: "" },
@@ -287,7 +287,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 3, name: "Introduction au génie logiciel",
+        id: 3, name: "Introduction au génie logiciel", coefficient: 5,
         defaultControls: [
           { type: "TP", percent: 14.28571429, value: "" },
           { type: "CC", percent: 14.28571429, value: "" },
@@ -296,7 +296,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 4, name: "Théorie des langages de programmation et applications",
+        id: 4, name: "Théorie des langages de programmation et applications", coefficient: 4,
         defaultControls: [
           { type: "CC", percent: 20, value: "" },
           { type: "CC", percent: 40, value: "" },
@@ -304,14 +304,14 @@ export const coursesData = {
         ],
       },
       {
-        id: 5, name: "Analyse Numérique",
+        id: 5, name: "Analyse Numérique", coefficient: 4,
         defaultControls: [
           { type: "CI", percent: 50, value: "" },
           { type: "CF", percent: 50, value: "" },
         ],
       },
       {
-        id: 6, name: "Analyse des organisations",
+        id: 6, name: "Analyse des organisations", coefficient: 3,
         defaultControls: [
           { type: "CC", percent: 30, value: "" },
           { type: "CI", percent: 30, value: "" },
@@ -320,7 +320,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 7, name: "Recherche Opérationnelle: graphes et algorithmes",
+        id: 7, name: "Recherche Opérationnelle: graphes et algorithmes", coefficient: 3,
         defaultControls: [
           { type: "CC", percent: 10, value: "" },
           { type: "CI", percent: 40, value: "" },
@@ -328,7 +328,7 @@ export const coursesData = {
         ],
       },
       {
-        id: 8, name: "Langue anglaise 1",
+        id: 8, name: "Langue anglaise 1", coefficient: 2,
         defaultControls: [
           { type: "CC", percent: 33, value: "" },
           { type: "CI", percent: 33, value: "" },

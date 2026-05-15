@@ -5,11 +5,11 @@ import { coursesData } from "@/lib/coursesData"
 
 // ─── Constants ─────────────────────────────────────────────────────────────────
 const CONTROL_TYPES = [
-  { key: "CI", label: "Contrôle Intermédiaire", abbr: "CI",  color: "#a78bfa", bg: "rgba(167,139,250,0.15)" },
-  { key: "CC", label: "Contrôle Continu",        abbr: "CC",  color: "#4f8ef7", bg: "rgba(79,142,247,0.15)" },
-  { key: "CF", label: "Contrôle Final",           abbr: "CF",  color: "#22d3ee", bg: "rgba(34,211,238,0.15)" },
-  { key: "TP", label: "Travaux Pratiques",        abbr: "TP",  color: "#34d399", bg: "rgba(52,211,153,0.15)" },
-  { key: "TD", label: "Travaux Dirigés",          abbr: "TD",  color: "#fb923c", bg: "rgba(251,146,60,0.15)" },
+  { key: "CI", label: "Contrôle Intermédiaire", abbr: "CI", color: "#a78bfa", bg: "rgba(167,139,250,0.15)" },
+  { key: "CC", label: "Contrôle Continu", abbr: "CC", color: "#4f8ef7", bg: "rgba(79,142,247,0.15)" },
+  { key: "CF", label: "Contrôle Final", abbr: "CF", color: "#22d3ee", bg: "rgba(34,211,238,0.15)" },
+  { key: "TP", label: "Travaux Pratiques", abbr: "TP", color: "#34d399", bg: "rgba(52,211,153,0.15)" },
+  { key: "TD", label: "Travaux Dirigés", abbr: "TD", color: "#fb923c", bg: "rgba(251,146,60,0.15)" },
 
 ]
 
@@ -213,7 +213,24 @@ function ModuleCard({ module, idx, onChange }) {
           <h3 style={{ fontWeight: 700, fontSize: "1rem", color: "#f0f4ff" }}>{module.name}</h3>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          {/* Coefficient badge (read-only) */}
+          <div
+            style={{
+              display: "inline-flex", alignItems: "center", gap: "5px",
+              padding: "4px 10px",
+              borderRadius: "100px",
+              background: "rgba(167,139,250,0.12)",
+              border: "1px solid rgba(167,139,250,0.35)",
+              color: "#a78bfa",
+              fontWeight: 700,
+              fontSize: "0.78rem",
+            }}
+          >
+            <span style={{ opacity: 0.7 }}>Coeff.</span>
+            <span style={{ fontWeight: 900, fontSize: "0.88rem" }}>{module.coefficient}</span>
+          </div>
+
           {/* Percent indicator */}
           <div
             style={{
@@ -365,6 +382,7 @@ export default function GradesForm({ year, semester, onSubmit }) {
     modules.map((m) => ({
       id: m.id,
       name: m.name,
+      coefficient: m.coefficient ?? 1,
       // Use each module's own defaultControls, with fresh UUIDs
       controls: makeControls(m.defaultControls || [
         { type: "CI", percent: 25, value: "" },
@@ -396,6 +414,7 @@ export default function GradesForm({ year, semester, onSubmit }) {
       const avg = computeAverage(m.controls) ?? 0
       return {
         name: m.name,
+        coefficient: m.coefficient,
         controls: m.controls.map((c) => ({
           type: c.type,
           label: getTypeInfo(c.type).label,
