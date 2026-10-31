@@ -5,15 +5,8 @@ import { useEffect, useState } from "react"
 import { exportToExcel, exportToPDF } from "@/lib/exportUtils"
 
 /* ── helpers ── */
-const getScoreColor = (s) => s >= 16 ? "#34d399" : s >= 14 ? "#4f8ef7" : s >= 10 ? "#fb923c" : "#ef4444"
-const getScoreLabel = (s) => s >= 16 ? "Excellent 🏆" : s >= 14 ? "Très Bien ⭐" : s >= 10 ? "Passable" : "Insuffisant ⚠️"
-const getScoreGrad = (s) => s >= 16
-  ? "linear-gradient(135deg,#34d399,#06b6d4)"
-  : s >= 14
-    ? "linear-gradient(135deg,#4f8ef7,#22d3ee)"
-    : s >= 10
-      ? "linear-gradient(135deg,#fb923c,#fbbf24)"
-      : "linear-gradient(135deg,#ef4444,#f97316)"
+const getScoreColor = (s) => s >= 16 ? "#34d399" : s >= 14 ? "#60a5fa" : s >= 10 ? "#fbbf24" : "#fb7185"
+const getScoreLabel = (s) => s >= 16 ? "Excellent" : s >= 14 ? "Très bien" : s >= 10 ? "Passable" : "Insuffisant"
 
 /* SVG donut ring */
 function DonutRing({ value, max = 20, size = 180, color }) {
@@ -29,9 +22,9 @@ function DonutRing({ value, max = 20, size = 180, color }) {
   }, [dash])
 
   return (
-    <svg width={size} height={size} viewBox="0 0 120 120">
+    <svg width={size} height={size} viewBox="0 0 120 120" role="img" aria-label={`Moyenne générale : ${Number(value).toFixed(2)} sur ${max}`}>
       {/* track */}
-      <circle cx="60" cy="60" r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="12" />
+      <circle cx="60" cy="60" r={r} fill="none" stroke="#29445f" strokeWidth="12" />
       {/* glow */}
       <circle cx="60" cy="60" r={r} fill="none" stroke={color} strokeWidth="12"
         strokeOpacity="0.15" />
@@ -42,10 +35,10 @@ function DonutRing({ value, max = 20, size = 180, color }) {
         style={{ transform: "rotate(-90deg)", transformOrigin: "60px 60px", transition: "stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)" }}
       />
       {/* center text */}
-      <text x="60" y="56" textAnchor="middle" fill="white" fontSize="20" fontWeight="800" fontFamily="Inter,sans-serif">
+      <text x="60" y="56" textAnchor="middle" fill="white" fontSize="20" fontWeight="800" fontFamily="Arial,sans-serif">
         {value}
       </text>
-      <text x="60" y="72" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9" fontFamily="Inter,sans-serif">
+      <text x="60" y="72" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9" fontFamily="Arial,sans-serif">
         / 20
       </text>
     </svg>
@@ -60,7 +53,7 @@ function HBar({ label, count, total, color, delay = 0 }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
       <div style={{ width: "90px", fontSize: "0.78rem", fontWeight: 600, color: "var(--text-secondary)", flexShrink: 0 }}>{label}</div>
-      <div style={{ flex: 1, height: "8px", background: "rgba(255,255,255,0.07)", borderRadius: "100px", overflow: "hidden" }}>
+      <div role="meter" aria-label={label} aria-valuemin={0} aria-valuemax={Math.max(total, 1)} aria-valuenow={count} style={{ flex: 1, height: "8px", background: "#29445f", borderRadius: "100px", overflow: "hidden" }}>
         <div style={{ height: "100%", width: `${w}%`, background: color, borderRadius: "100px", transition: `width 1s ${delay}ms cubic-bezier(0.4,0,0.2,1)` }} />
       </div>
       <div style={{ width: "32px", fontSize: "0.8rem", fontWeight: 700, color: "var(--text-secondary)", textAlign: "right" }}>{count}</div>
@@ -77,7 +70,7 @@ function BarChart({ grades }) {
   const maxH = 100
 
   return (
-    <div style={{ display: "flex", alignItems: "flex-end", gap: "8px", height: `${maxH + 28}px`, padding: "0 4px" }}>
+    <div role="img" aria-label={`Notes par module : ${grades.map((grade) => `${grade.name}, ${Number(grade.average).toFixed(2)} sur 20`).join(" ; ")}`} style={{ display: "flex", alignItems: "flex-end", gap: "8px", height: `${maxH + 28}px`, padding: "0 4px" }}>
       {grades.map((g, i) => {
         const pct = g.average / 20
         const barH = mounted ? Math.max(pct * maxH, 6) : 0
@@ -96,7 +89,6 @@ function BarChart({ grades }) {
                 position: "relative", overflow: "hidden",
               }}
             >
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(255,255,255,0.18),transparent)" }} />
             </div>
             <div style={{ fontSize: "0.6rem", color: "var(--text-muted)", textAlign: "center", fontWeight: 600, marginTop: "2px" }}>{short}</div>
           </div>
@@ -135,20 +127,20 @@ function RadarChart({ grades, size = 180 }) {
     }).join(" ")
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: "visible" }}>
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label={`Profil académique : ${grades.map((grade) => `${grade.name}, ${Number(grade.average).toFixed(2)} sur 20`).join(" ; ")}`} style={{ overflow: "visible" }}>
       {/* grid */}
       {levels.map((lv, li) => (
         <polygon key={li} points={levelPolygon(lv)}
-          fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+          fill="none" stroke="#38516c" strokeWidth="1" />
       ))}
       {/* axes */}
       {grades.map((_, i) => {
         const p = point(maxR, i)
-        return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+        return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#38516c" strokeWidth="1" />
       })}
       {/* data area */}
       <polygon points={dataPolygon()}
-        fill="rgba(79,142,247,0.2)" stroke="#4f8ef7" strokeWidth="2" strokeLinejoin="round"
+        fill="rgba(34,211,238,0.18)" stroke="#22d3ee" strokeWidth="2" strokeLinejoin="round"
         style={{ transition: "all 1.1s cubic-bezier(0.4,0,0.2,1)" }}
       />
       {/* dots */}
@@ -157,7 +149,7 @@ function RadarChart({ grades, size = 180 }) {
         const p = point(r, i)
         return (
           <circle key={i} cx={p.x} cy={p.y} r="4"
-            fill="#4f8ef7" stroke="rgba(10,15,30,0.8)" strokeWidth="2"
+            fill="#22d3ee" stroke="#071426" strokeWidth="2"
             style={{ transition: `all 1.1s ${i * 60}ms cubic-bezier(0.4,0,0.2,1)` }}
           />
         )
@@ -168,7 +160,7 @@ function RadarChart({ grades, size = 180 }) {
         const short = g.name.split(" ").slice(0, 1).join("").slice(0, 8)
         return (
           <text key={i} x={p.x} y={p.y} textAnchor="middle" dominantBaseline="middle"
-            fill="rgba(255,255,255,0.55)" fontSize="7.5" fontFamily="Inter,sans-serif" fontWeight="600">
+            fill="#c4d2e1" fontSize="8.5" fontFamily="Arial,sans-serif" fontWeight="600">
             {short}
           </text>
         )
@@ -182,14 +174,20 @@ export default function ResultsCard({ year, semester, grades, average }) {
   const router = useRouter()
   const avg = Number(average) || 0
   const color = getScoreColor(avg)
-  const grad = getScoreGrad(avg)
   const label = getScoreLabel(avg)
 
   const [exporting, setExporting] = useState(null) // 'excel' | 'pdf' | null
   const [exportDone, setExportDone] = useState(null)
+  const [exportError, setExportError] = useState(null)
+  const exportStatus = exporting
+    ? `Export ${exporting === "excel" ? "Excel" : "PDF"} en cours.`
+    : exportDone
+      ? `Export ${exportDone === "excel" ? "Excel" : "PDF"} terminé.`
+      : ""
 
   const handleExport = async (type) => {
     setExporting(type)
+    setExportError(null)
     try {
       const payload = { year, semester, grades, average }
       if (type === "excel") await exportToExcel(payload)
@@ -198,6 +196,7 @@ export default function ResultsCard({ year, semester, grades, average }) {
       setTimeout(() => setExportDone(null), 2500)
     } catch (err) {
       console.error("Export error:", err)
+      setExportError(`L’export ${type === "excel" ? "Excel" : "PDF"} a échoué. Réessayez.`)
     } finally {
       setExporting(null)
     }
@@ -212,28 +211,23 @@ export default function ResultsCard({ year, semester, grades, average }) {
   /* grade distribution buckets */
   const dist = [
     { label: "≥ 16 (Exc.)", count: grades.filter(g => g.average >= 16).length, color: "#34d399" },
-    { label: "14–15 (TB)", count: grades.filter(g => g.average >= 14 && g.average < 16).length, color: "#4f8ef7" },
-    { label: "12–13 (Bien)", count: grades.filter(g => g.average >= 12 && g.average < 14).length, color: "#a78bfa" },
-    { label: "10–11 (Pass)", count: grades.filter(g => g.average >= 10 && g.average < 12).length, color: "#fb923c" },
-    { label: "< 10 (Insuf)", count: grades.filter(g => g.average < 10).length, color: "#ef4444" },
+    { label: "14–15 (TB)", count: grades.filter(g => g.average >= 14 && g.average < 16).length, color: "#60a5fa" },
+    { label: "12–13 (Bien)", count: grades.filter(g => g.average >= 12 && g.average < 14).length, color: "#22d3ee" },
+    { label: "10–11 (Pass)", count: grades.filter(g => g.average >= 10 && g.average < 12).length, color: "#fbbf24" },
+    { label: "< 10 (Insuf)", count: grades.filter(g => g.average < 10).length, color: "#fb7185" },
   ]
 
   return (
     <div style={{ flex: 1, padding: "36px 20px 60px", position: "relative", overflow: "hidden" }}>
-      {/* ambient orbs */}
-      <div className="orb orb-blue" style={{ width: "500px", height: "500px", top: "-180px", left: "-120px", opacity: 0.2, animationDelay: "0s" }} />
-      <div className="orb orb-purple" style={{ width: "400px", height: "400px", bottom: "-80px", right: "-80px", opacity: 0.15, animationDelay: "2s" }} />
-      <div className="orb orb-green" style={{ width: "300px", height: "300px", top: "40%", right: "5%", opacity: 0.1, animationDelay: "4s" }} />
-
       <div style={{ maxWidth: "1100px", margin: "0 auto", position: "relative", zIndex: 1 }}>
 
         {/* ── Hero banner ── */}
         <div className="animate-slide-up" style={{ textAlign: "center", marginBottom: "36px" }}>
-          <div className="badge animate-bounce-subtle" style={{ marginBottom: "16px", display: "inline-flex" }}>
-            📊 Résultats Finaux
+          <div className="badge" style={{ marginBottom: "16px", display: "inline-flex" }}>
+            Résultats finaux
           </div>
           <h1 style={{ fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#f0f4ff", marginBottom: "6px" }}>
-            Votre <span className="gradient-text">Tableau de Bord</span>
+            Votre <span className="accent-text">tableau de bord</span>
           </h1>
           <p style={{ color: "var(--text-secondary)", fontSize: "1rem" }}>
             Année {year} · Semestre {semester} · {grades.length} modules
@@ -241,11 +235,10 @@ export default function ResultsCard({ year, semester, grades, average }) {
         </div>
 
         {/* ── Top row: big score card + stat chips ── */}
-        <div className="animate-slide-up-delay-1" style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: "16px", marginBottom: "16px" }}>
+        <div className="results-top-grid animate-slide-up-delay-1" style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: "16px", marginBottom: "16px" }}>
 
           {/* Score card */}
-          <div className="glass-card" style={{ padding: "32px 24px", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", background: "rgba(255,255,255,0.04)", position: "relative", overflow: "hidden" }}>
-            <div style={{ position: "absolute", inset: 0, background: grad, opacity: 0.06, borderRadius: "20px" }} />
+          <div className="glass-card" style={{ padding: "32px 24px", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", position: "relative", overflow: "hidden" }}>
             <DonutRing value={avg} color={color} size={170} />
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-secondary)", marginBottom: "6px" }}>Moyenne Générale</div>
@@ -253,7 +246,7 @@ export default function ResultsCard({ year, semester, grades, average }) {
                 style={{
                   display: "inline-flex", alignItems: "center", gap: "6px",
                   background: color + "22", border: `1px solid ${color}55`,
-                  color: color, borderRadius: "100px", padding: "5px 16px",
+                  color: color, borderRadius: "6px", padding: "5px 16px",
                   fontSize: "0.9rem", fontWeight: 800,
                 }}
               >
@@ -265,37 +258,37 @@ export default function ResultsCard({ year, semester, grades, average }) {
           {/* Stat chips grid */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr", gap: "12px" }}>
             <div className="stat-chip">
-              <div style={{ fontSize: "2rem", fontWeight: 900, background: "linear-gradient(135deg,#34d399,#06b6d4)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <div style={{ fontSize: "2rem", fontWeight: 900, color: "var(--accent-cyan)" }}>
                 {best ? best.average.toFixed(2) : "–"}
               </div>
-              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>🏆 Meilleure note</div>
+              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>Meilleure note</div>
               <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginTop: "2px" }}>{best?.name ?? ""}</div>
             </div>
             <div className="stat-chip">
-              <div style={{ fontSize: "2rem", fontWeight: 900, background: "linear-gradient(135deg,#f472b6,#ef4444)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <div style={{ fontSize: "2rem", fontWeight: 900, color: "#fb7185" }}>
                 {worst ? worst.average.toFixed(2) : "–"}
               </div>
-              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>📉 Note la plus basse</div>
+              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>Note la plus basse</div>
               <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginTop: "2px" }}>{worst?.name ?? ""}</div>
             </div>
             <div className="stat-chip">
-              <div style={{ fontSize: "2rem", fontWeight: 900, color: "#34d399" }}>{above10}</div>
-              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>✅ Modules validés (≥10)</div>
+              <div style={{ fontSize: "2rem", fontWeight: 900, color: "#67e8f9" }}>{above10}</div>
+              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>Modules validés (≥10)</div>
             </div>
             <div className="stat-chip">
-              <div style={{ fontSize: "2rem", fontWeight: 900, color: "#ef4444" }}>{below10}</div>
-              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>❌ Modules non validés</div>
+              <div style={{ fontSize: "2rem", fontWeight: 900, color: "#fb7185" }}>{below10}</div>
+              <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", fontWeight: 600 }}>Modules non validés</div>
             </div>
           </div>
         </div>
 
         {/* ── Middle row: Bar chart + Radar ── */}
-        <div className="animate-slide-up-delay-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+        <div className="results-two-column-grid animate-slide-up-delay-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
 
           {/* Bar chart */}
           <div className="glass-card" style={{ padding: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
-              <div style={{ width: "4px", height: "18px", borderRadius: "2px", background: "linear-gradient(135deg,#4f8ef7,#22d3ee)" }} />
+              <div className="section-marker" aria-hidden="true" />
               <span style={{ fontWeight: 700, fontSize: "0.95rem", color: "#f0f4ff" }}>Notes par module</span>
             </div>
             <BarChart grades={grades} />
@@ -304,7 +297,7 @@ export default function ResultsCard({ year, semester, grades, average }) {
           {/* Radar chart */}
           <div className="glass-card" style={{ padding: "24px", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px", width: "100%" }}>
-              <div style={{ width: "4px", height: "18px", borderRadius: "2px", background: "linear-gradient(135deg,#a78bfa,#ec4899)" }} />
+              <div className="section-marker" aria-hidden="true" />
               <span style={{ fontWeight: 700, fontSize: "0.95rem", color: "#f0f4ff" }}>Profil académique</span>
             </div>
             <RadarChart grades={grades} size={200} />
@@ -312,12 +305,12 @@ export default function ResultsCard({ year, semester, grades, average }) {
         </div>
 
         {/* ── Bottom row: Distribution + Module details ── */}
-        <div className="animate-slide-up-delay-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
+        <div className="results-two-column-grid animate-slide-up-delay-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
 
           {/* Distribution */}
           <div className="glass-card" style={{ padding: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
-              <div style={{ width: "4px", height: "18px", borderRadius: "2px", background: "linear-gradient(135deg,#fb923c,#fbbf24)" }} />
+              <div className="section-marker" aria-hidden="true" />
               <span style={{ fontWeight: 700, fontSize: "0.95rem", color: "#f0f4ff" }}>Distribution des notes</span>
             </div>
             {dist.map((d, i) => (
@@ -328,7 +321,7 @@ export default function ResultsCard({ year, semester, grades, average }) {
           {/* Module detail list */}
           <div className="glass-card" style={{ padding: "24px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
-              <div style={{ width: "4px", height: "18px", borderRadius: "2px", background: "linear-gradient(135deg,#34d399,#06b6d4)" }} />
+              <div className="section-marker" aria-hidden="true" />
               <span style={{ fontWeight: 700, fontSize: "0.95rem", color: "#f0f4ff" }}>Détail par module</span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "230px", overflowY: "auto" }}>
@@ -343,14 +336,14 @@ export default function ResultsCard({ year, semester, grades, average }) {
                         <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
                           <span style={{ fontSize: "0.8rem", fontWeight: 600, color: "#f0f4ff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "130px" }}>{g.name}</span>
                           {g.coefficient && (
-                            <span style={{ flexShrink: 0, fontSize: "0.68rem", fontWeight: 700, color: "#a78bfa", background: "rgba(167,139,250,0.15)", border: "1px solid rgba(167,139,250,0.3)", borderRadius: "100px", padding: "1px 7px" }}>
+                            <span style={{ flexShrink: 0, fontSize: "0.68rem", fontWeight: 700, color: "#bfdbfe", background: "#142d49", border: "1px solid #60a5fa", borderRadius: "6px", padding: "2px 7px" }}>
                               ×{g.coefficient}
                             </span>
                           )}
                         </div>
                         <span style={{ fontSize: "0.8rem", fontWeight: 800, color: c, flexShrink: 0 }}>{g.average.toFixed(2)}</span>
                       </div>
-                      <div style={{ height: "4px", background: "rgba(255,255,255,0.07)", borderRadius: "100px", overflow: "hidden" }}>
+                      <div style={{ height: "5px", background: "#29445f", borderRadius: "4px", overflow: "hidden" }}>
                         <div style={{ height: "100%", width: `${pct}%`, background: c, borderRadius: "100px", transition: `width 1s ${i * 80}ms cubic-bezier(0.4,0,0.2,1)` }} />
                       </div>
                     </div>
@@ -367,9 +360,11 @@ export default function ResultsCard({ year, semester, grades, average }) {
           {/* Export panel */}
           <div className="glass-card" style={{ padding: "20px 24px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-              <div style={{ width: "4px", height: "18px", borderRadius: "2px", background: "linear-gradient(135deg,#a78bfa,#4f8ef7)" }} />
+              <div className="section-marker" aria-hidden="true" />
               <span style={{ fontWeight: 700, fontSize: "0.95rem", color: "#f0f4ff" }}>Exporter les résultats</span>
             </div>
+            {exportError && <p className="form-feedback" role="alert">{exportError}</p>}
+            <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{exportStatus}</p>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
 
               {/* Excel button */}
@@ -381,9 +376,9 @@ export default function ResultsCard({ year, semester, grades, average }) {
                   display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
                   padding: "14px 20px",
                   borderRadius: "14px",
-                  border: "1px solid rgba(52,211,153,0.35)",
-                  background: exportDone === "excel" ? "rgba(52,211,153,0.2)" : "rgba(52,211,153,0.1)",
-                  color: exportDone === "excel" ? "#34d399" : "#34d399",
+                  border: "1px solid #22d3ee",
+                  background: exportDone === "excel" ? "#17485a" : "#102d42",
+                  color: "#a5f3fc",
                   fontWeight: 700, fontSize: "0.95rem",
                   cursor: exporting ? "not-allowed" : "pointer",
                   opacity: exporting && exporting !== "excel" ? 0.5 : 1,
@@ -392,12 +387,11 @@ export default function ResultsCard({ year, semester, grades, average }) {
                 }}
               >
                 {exporting === "excel" ? (
-                  <><span style={{ animation: "spin 1s linear infinite", display: "inline-block" }}>⏳</span> Export en cours…</>
+                  <>Export Excel en cours…</>
                 ) : exportDone === "excel" ? (
-                  <><span>✅</span> Téléchargé !</>
+                  <>Fichier téléchargé</>
                 ) : (
                   <>
-                    <span style={{ fontSize: "1.3rem" }}>📊</span>
                     <div style={{ textAlign: "left" }}>
                       <div>Exporter en Excel</div>
                       <div style={{ fontSize: "0.72rem", fontWeight: 500, opacity: 0.7 }}>Format .xlsx · 3 feuilles détaillées</div>
@@ -415,9 +409,9 @@ export default function ResultsCard({ year, semester, grades, average }) {
                   display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
                   padding: "14px 20px",
                   borderRadius: "14px",
-                  border: "1px solid rgba(239,68,68,0.35)",
-                  background: exportDone === "pdf" ? "rgba(239,68,68,0.2)" : "rgba(239,68,68,0.08)",
-                  color: "#ef4444",
+                  border: "1px solid #60a5fa",
+                  background: exportDone === "pdf" ? "#1a3d60" : "#102d49",
+                  color: "#bfdbfe",
                   fontWeight: 700, fontSize: "0.95rem",
                   cursor: exporting ? "not-allowed" : "pointer",
                   opacity: exporting && exporting !== "pdf" ? 0.5 : 1,
@@ -425,12 +419,11 @@ export default function ResultsCard({ year, semester, grades, average }) {
                 }}
               >
                 {exporting === "pdf" ? (
-                  <><span style={{ animation: "spin 1s linear infinite", display: "inline-block" }}>⏳</span> Génération PDF…</>
+                  <>Génération du PDF en cours…</>
                 ) : exportDone === "pdf" ? (
-                  <><span>✅</span> Téléchargé !</>
+                  <>Fichier téléchargé</>
                 ) : (
                   <>
-                    <span style={{ fontSize: "1.3rem" }}>📄</span>
                     <div style={{ textAlign: "left" }}>
                       <div>Exporter en PDF</div>
                       <div style={{ fontSize: "0.72rem", fontWeight: 500, opacity: 0.7 }}>Format A4 · Mise en page premium</div>
@@ -444,13 +437,13 @@ export default function ResultsCard({ year, semester, grades, average }) {
           {/* Navigation buttons */}
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <button onClick={() => router.push("/semesters")} className="btn-secondary" style={{ flex: 1, minWidth: "160px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-              ← Retour semestres
+              <span aria-hidden="true">←</span> Retour aux semestres
             </button>
             <button onClick={() => router.push("/grades")} className="btn-secondary" style={{ flex: 1, minWidth: "160px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-              ↺ Nouveau calcul
+              <span aria-hidden="true">↺</span> Nouveau calcul
             </button>
             <button onClick={() => router.push("/")} className="btn-primary" style={{ flex: 1, minWidth: "160px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-              🏠 Accueil
+              Accueil
             </button>
           </div>
         </div>

@@ -1,3 +1,3 @@
 export default function Loading() {
-  return null
+  return <main className="page-loading" role="status" aria-live="polite"><span className="loading-spinner" aria-hidden="true" />Chargement du formulaire de notes…</main>
 }

@@ -11,7 +11,10 @@ export default function GradesPage() {
   const semester = searchParams.get("semester")
 
   const handleSubmit = (gradesData) => {
-    router.push(`/results?year=${year}&semester=${semester}&grades=${btoa(JSON.stringify(gradesData))}`)
+    const bytes = new TextEncoder().encode(JSON.stringify(gradesData))
+    const binary = Array.from(bytes, (byte) => String.fromCharCode(byte)).join("")
+    const encodedGrades = btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "")
+    router.push(`/results?year=${year}&semester=${semester}&grades=${encodedGrades}`)
   }
 
   return (

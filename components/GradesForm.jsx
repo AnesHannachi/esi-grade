@@ -5,11 +5,11 @@ import { coursesData } from "@/lib/coursesData"
 
 // ─── Constants ─────────────────────────────────────────────────────────────────
 const CONTROL_TYPES = [
-  { key: "CI", label: "Contrôle Intermédiaire", abbr: "CI", color: "#a78bfa", bg: "rgba(167,139,250,0.15)" },
-  { key: "CC", label: "Contrôle Continu", abbr: "CC", color: "#4f8ef7", bg: "rgba(79,142,247,0.15)" },
-  { key: "CF", label: "Contrôle Final", abbr: "CF", color: "#22d3ee", bg: "rgba(34,211,238,0.15)" },
-  { key: "TP", label: "Travaux Pratiques", abbr: "TP", color: "#34d399", bg: "rgba(52,211,153,0.15)" },
-  { key: "TD", label: "Travaux Dirigés", abbr: "TD", color: "#fb923c", bg: "rgba(251,146,60,0.15)" },
+  { key: "CI", label: "Contrôle Intermédiaire", abbr: "CI", color: "#93c5fd", bg: "#142d49" },
+  { key: "CC", label: "Contrôle Continu", abbr: "CC", color: "#60a5fa", bg: "#142d49" },
+  { key: "CF", label: "Contrôle Final", abbr: "CF", color: "#67e8f9", bg: "#103442" },
+  { key: "TP", label: "Travaux Pratiques", abbr: "TP", color: "#67e8f9", bg: "#103442" },
+  { key: "TD", label: "Travaux Dirigés", abbr: "TD", color: "#fbbf24", bg: "#3b3012" },
 
 ]
 
@@ -29,9 +29,9 @@ const computeAverage = (controls) => {
 
 const getScoreColor = (score) => {
   if (score >= 16) return "#34d399"
-  if (score >= 14) return "#4f8ef7"
-  if (score >= 10) return "#fb923c"
-  return "#ef4444"
+  if (score >= 14) return "#60a5fa"
+  if (score >= 10) return "#fbbf24"
+  return "#fb7185"
 }
 
 // ─── PercentPill ────────────────────────────────────────────────────────────────
@@ -42,6 +42,7 @@ function PercentPill({ value, onChange, color }) {
         type="number"
         min="0"
         max="100"
+        aria-label="Pondération en pourcentage"
         value={value}
         onChange={(e) => onChange(Math.max(0, Math.min(100, Number(e.target.value))))}
         style={{
@@ -65,13 +66,12 @@ function PercentPill({ value, onChange, color }) {
 // ─── TypeSelector ───────────────────────────────────────────────────────────────
 function TypeSelector({ value, onChange }) {
   const info = getTypeInfo(value)
-  const [open, setOpen] = useState(false)
   return (
-    <div style={{ position: "relative" }}>
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        style={{
+    <select
+      aria-label={`Type de contrôle : ${info.label}`}
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      style={{
           display: "flex",
           alignItems: "center",
           gap: "6px",
@@ -85,71 +85,10 @@ function TypeSelector({ value, onChange }) {
           cursor: "pointer",
           whiteSpace: "nowrap",
           transition: "all 0.2s",
-        }}
-      >
-        {info.abbr} <span style={{ fontSize: "0.6rem", opacity: 0.7 }}>▼</span>
-      </button>
-      {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: "calc(100% + 6px)",
-            left: 0,
-            zIndex: 99,
-            background: "#1a1f3a",
-            border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: "12px",
-            padding: "6px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "3px",
-            minWidth: "200px",
-            boxShadow: "0 16px 40px rgba(0,0,0,0.5)",
-          }}
-        >
-          {CONTROL_TYPES.map((t) => (
-            <button
-              key={t.key}
-              type="button"
-              onClick={() => { onChange(t.key); setOpen(false) }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "8px 12px",
-                borderRadius: "8px",
-                border: "none",
-                background: value === t.key ? t.bg : "transparent",
-                color: value === t.key ? t.color : "var(--text-secondary)",
-                fontWeight: value === t.key ? 700 : 500,
-                fontSize: "0.85rem",
-                cursor: "pointer",
-                textAlign: "left",
-                transition: "all 0.15s",
-              }}
-            >
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "28px",
-                  height: "20px",
-                  borderRadius: "5px",
-                  background: t.bg,
-                  color: t.color,
-                  fontSize: "0.72rem",
-                  fontWeight: 800,
-                }}
-              >
-                {t.abbr}
-              </span>
-              {t.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+      }}
+    >
+      {CONTROL_TYPES.map((type) => <option key={type.key} value={type.key}>{type.abbr}</option>)}
+    </select>
   )
 }
 
@@ -181,8 +120,8 @@ function ModuleCard({ module, idx, onChange }) {
       style={{
         padding: "22px 24px",
         animationDelay: `${idx * 0.06}s`,
-        borderColor: allFilled && percentOk ? "rgba(79,142,247,0.28)" : "rgba(255,255,255,0.08)",
-        background: allFilled && percentOk ? "rgba(79,142,247,0.05)" : "rgba(255,255,255,0.03)",
+        borderColor: allFilled && percentOk ? "#22d3ee" : "var(--border-strong)",
+        background: "var(--surface-card)",
         cursor: "default",
         transform: "none",
       }}
@@ -195,9 +134,9 @@ function ModuleCard({ module, idx, onChange }) {
               width: "36px",
               height: "36px",
               borderRadius: "10px",
-              background: allFilled && percentOk
-                ? "linear-gradient(135deg, #4f8ef7, #22d3ee)"
-                : "rgba(255,255,255,0.07)",
+            background: allFilled && percentOk
+                ? "var(--accent-blue)"
+                : "#29445f",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -208,7 +147,7 @@ function ModuleCard({ module, idx, onChange }) {
               transition: "all 0.3s",
             }}
           >
-            {allFilled && percentOk ? "✓" : `M${module.id}`}
+            {allFilled && percentOk ? "OK" : `M${module.id}`}
           </div>
           <h3 style={{ fontWeight: 700, fontSize: "1rem", color: "#f0f4ff" }}>{module.name}</h3>
         </div>
@@ -220,14 +159,14 @@ function ModuleCard({ module, idx, onChange }) {
               display: "inline-flex", alignItems: "center", gap: "5px",
               padding: "4px 10px",
               borderRadius: "100px",
-              background: "rgba(167,139,250,0.12)",
-              border: "1px solid rgba(167,139,250,0.35)",
-              color: "#a78bfa",
+              background: "#142d49",
+              border: "1px solid #60a5fa",
+              color: "#bfdbfe",
               fontWeight: 700,
               fontSize: "0.78rem",
             }}
           >
-            <span style={{ opacity: 0.7 }}>Coeff.</span>
+            <span>Coeff.</span>
             <span style={{ fontWeight: 900, fontSize: "0.88rem" }}>{module.coefficient}</span>
           </div>
 
@@ -236,15 +175,15 @@ function ModuleCard({ module, idx, onChange }) {
             style={{
               padding: "5px 12px",
               borderRadius: "100px",
-              background: percentOk ? "rgba(52,211,153,0.12)" : "rgba(239,68,68,0.12)",
-              border: `1px solid ${percentOk ? "rgba(52,211,153,0.35)" : "rgba(239,68,68,0.35)"}`,
-              color: percentOk ? "#34d399" : "#ef4444",
+              background: percentOk ? "#123c3a" : "#4a202b",
+              border: `1px solid ${percentOk ? "#34d399" : "#fb7185"}`,
+              color: percentOk ? "#86efac" : "#fda4af",
               fontWeight: 700,
               fontSize: "0.8rem",
               transition: "all 0.3s",
             }}
           >
-            Σ {totalPercent}%{!percentOk && <span style={{ marginLeft: "4px" }}>⚠</span>}
+            Σ {totalPercent}%{!percentOk && <span style={{ marginLeft: "4px" }}>· À corriger</span>}
           </div>
 
           {/* Average badge */}
@@ -253,8 +192,8 @@ function ModuleCard({ module, idx, onChange }) {
               style={{
                 padding: "5px 14px",
                 borderRadius: "100px",
-                background: `${getScoreColor(avg)}20`,
-                border: `1px solid ${getScoreColor(avg)}44`,
+                background: "#102d49",
+                border: `1px solid ${getScoreColor(avg)}`,
                 color: getScoreColor(avg),
                 fontWeight: 800,
                 fontSize: "0.88rem",
@@ -274,6 +213,7 @@ function ModuleCard({ module, idx, onChange }) {
           return (
             <div
               key={ctrl.id}
+              className="grade-control-row"
               style={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",
@@ -281,8 +221,8 @@ function ModuleCard({ module, idx, onChange }) {
                 alignItems: "center",
                 padding: "10px 14px",
                 borderRadius: "12px",
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                background: "#0b1d33",
+                border: "1px solid #38516c",
                 transition: "all 0.2s",
               }}
             >
@@ -298,14 +238,18 @@ function ModuleCard({ module, idx, onChange }) {
 
               {/* Middle: note input */}
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <label style={{ fontSize: "0.78rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+                <label id={`control-label-${module.id}-${ctrl.id}`} htmlFor={`grade-${module.id}-${ctrl.id}`} style={{ fontSize: "0.78rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
                   {info.label}
                 </label>
                 <input
+                  id={`grade-${module.id}-${ctrl.id}`}
                   type="number"
                   min="0"
                   max="20"
                   step="0.25"
+                  inputMode="decimal"
+                  aria-label={`${info.label}, ${module.name}, note sur 20`}
+                  aria-describedby={`grade-help-${module.id}-${ctrl.id}`}
                   value={ctrl.value}
                   onChange={(e) => updateControl(ctrl.id, "value", e.target.value)}
                   placeholder="0–20"
@@ -317,22 +261,24 @@ function ModuleCard({ module, idx, onChange }) {
                     borderColor: ctrl.value !== "" ? `${info.color}55` : undefined,
                   }}
                 />
+                <span id={`grade-help-${module.id}-${ctrl.id}`} className="sr-only">Saisissez une note entre 0 et 20.</span>
               </div>
 
               {/* Right: delete */}
               <button
                 type="button"
                 onClick={() => removeControl(ctrl.id)}
+                aria-label={`Supprimer ${info.label} pour ${module.name}`}
                 disabled={controls.length <= 1}
                 style={{
                   width: "28px",
                   height: "28px",
                   borderRadius: "8px",
-                  border: "1px solid rgba(239,68,68,0.25)",
-                  background: "rgba(239,68,68,0.08)",
-                  color: controls.length <= 1 ? "rgba(239,68,68,0.25)" : "#ef4444",
+                  border: "1px solid #fb7185",
+                  background: "#4a202b",
+                  color: controls.length <= 1 ? "#9f5965" : "#fecdd3",
                   cursor: controls.length <= 1 ? "not-allowed" : "pointer",
-                  fontSize: "0.9rem",
+                  fontSize: "0.68rem",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -340,7 +286,7 @@ function ModuleCard({ module, idx, onChange }) {
                   flexShrink: 0,
                 }}
               >
-                ×
+                <span aria-hidden="true">×</span>
               </button>
             </div>
           )
@@ -358,16 +304,16 @@ function ModuleCard({ module, idx, onChange }) {
             gap: "6px",
             padding: "7px 14px",
             borderRadius: "10px",
-            border: "1px dashed rgba(79,142,247,0.4)",
-            background: "rgba(79,142,247,0.06)",
-            color: "#4f8ef7",
+            border: "1px solid #60a5fa",
+            background: "#102d49",
+            color: "#bfdbfe",
             fontWeight: 600,
             fontSize: "0.82rem",
             cursor: "pointer",
             transition: "all 0.2s",
           }}
         >
-          <span style={{ fontSize: "1rem" }}>+</span> Ajouter
+          <span aria-hidden="true">+</span> Ajouter
         </button>
       )}
     </div>
@@ -402,7 +348,8 @@ export default function GradesForm({ year, semester, onSubmit }) {
   const moduleStatuses = modulesState.map((m) => {
     const totalPercent = m.controls.reduce((s, c) => s + c.percent, 0)
     const allFilled = m.controls.every((c) => c.value !== "")
-    return { percentOk: totalPercent === 100, allFilled, ready: totalPercent === 100 && allFilled }
+    const invalidGrade = m.controls.some((c) => c.value !== "" && (!Number.isFinite(Number(c.value)) || Number(c.value) < 0 || Number(c.value) > 20))
+    return { percentOk: totalPercent === 100, allFilled, invalidGrade, ready: totalPercent === 100 && allFilled && !invalidGrade }
   })
 
   const completedCount = moduleStatuses.filter((s) => s.ready).length
@@ -410,6 +357,7 @@ export default function GradesForm({ year, semester, onSubmit }) {
   const progress = modulesState.length > 0 ? (completedCount / modulesState.length) * 100 : 0
 
   const handleSubmit = () => {
+    if (!isComplete) return
     const finalData = modulesState.map((m) => {
       const avg = computeAverage(m.controls) ?? 0
       return {
@@ -443,19 +391,15 @@ export default function GradesForm({ year, semester, onSubmit }) {
         overflow: "hidden",
       }}
     >
-      {/* Orbs */}
-      <div className="orb orb-blue" style={{ width: "350px", height: "350px", top: "-80px", right: "-80px", opacity: 0.2 }} />
-      <div className="orb orb-purple" style={{ width: "300px", height: "300px", bottom: "0", left: "-60px", opacity: 0.12 }} />
-
       <div style={{ maxWidth: "900px", width: "100%", position: "relative", zIndex: 1 }}>
 
         {/* Header */}
         <div className="animate-slide-up" style={{ marginBottom: "32px" }}>
           <div className="badge" style={{ marginBottom: "16px", display: "inline-flex" }}>
-            Étape 2 sur 2
+            Étape 2 sur 3
           </div>
           <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 900, letterSpacing: "-0.03em", color: "#f0f4ff", marginBottom: "8px" }}>
-            Saisir vos <span className="gradient-text">notes</span>
+            Saisir vos <span className="accent-text">notes</span>
           </h1>
           <p style={{ color: "var(--text-secondary)", fontSize: "1rem" }}>
             Année {year} · Semestre {semester} · {modules.length} modules
@@ -500,12 +444,12 @@ export default function GradesForm({ year, semester, onSubmit }) {
               {completedCount} / {modulesState.length} modules complétés
             </span>
           </div>
-          <div className="progress-bar-track">
+          <div className="progress-bar-track" role="progressbar" aria-label="Progression de la saisie des modules" aria-valuemin={0} aria-valuemax={modulesState.length} aria-valuenow={completedCount}>
             <div
               className="progress-bar-fill"
               style={{
                 width: `${progress}%`,
-                background: isComplete ? "linear-gradient(135deg, #34d399, #06b6d4)" : undefined,
+                background: isComplete ? "var(--accent-blue)" : undefined,
               }}
             />
           </div>
@@ -519,7 +463,7 @@ export default function GradesForm({ year, semester, onSubmit }) {
                   width: "10px",
                   height: "10px",
                   borderRadius: "50%",
-                  background: s.ready ? "#34d399" : s.percentOk ? "#fb923c" : "#ef444466",
+                  background: s.ready ? "#34d399" : s.percentOk ? "#fbbf24" : "#fb7185",
                   transition: "all 0.3s",
                   cursor: "default",
                 }}
@@ -533,6 +477,8 @@ export default function GradesForm({ year, semester, onSubmit }) {
           {modulesState.map((m, idx) => (
             <ModuleCard key={m.id} module={m} idx={idx} onChange={handleControlsChange} />
           ))}
+          {moduleStatuses.some((status) => status.invalidGrade) && <p className="form-feedback" role="alert">Chaque note doit être comprise entre 0 et 20.</p>}
+          {moduleStatuses.some((status) => !status.percentOk) && <p className="form-feedback" role="status">Le total des pondérations doit être égal à 100 % pour chaque module.</p>}
         </div>
 
         {/* Submit */}
@@ -553,9 +499,8 @@ export default function GradesForm({ year, semester, onSubmit }) {
           >
             {isComplete ? (
               <>
-                <span>📊</span>
                 <span>Voir mon tableau de résultats</span>
-                <span>→</span>
+                <span aria-hidden="true">→</span>
               </>
             ) : (
               <span>

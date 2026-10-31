@@ -1,59 +1,39 @@
-"use client"
-
-import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const features = [
   {
-    icon: "📅",
+    number: "01",
     title: "Choisissez votre année",
     desc: "Sélectionnez votre année académique et votre semestre d'étude",
-    color: "linear-gradient(135deg, #4f8ef7, #22d3ee)",
-    glow: "rgba(79,142,247,0.2)",
   },
   {
-    icon: "✏️",
+    number: "02",
     title: "Saisissez vos notes",
     desc: "Entrez vos notes de CI, CF, TP pour chaque module",
-    color: "linear-gradient(135deg, #a78bfa, #ec4899)",
-    glow: "rgba(167,139,250,0.2)",
   },
   {
-    icon: "📊",
+    number: "03",
     title: "Obtenez vos résultats",
     desc: "Visualisez instantanément votre moyenne semestrielle",
-    color: "linear-gradient(135deg, #34d399, #06b6d4)",
-    glow: "rgba(52,211,153,0.2)",
   },
 ]
 
 export default function WelcomeCard() {
-  const router = useRouter()
-
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 24px", position: "relative", overflow: "hidden" }}>
-      {/* Decorative orbs */}
-      <div className="orb orb-blue" style={{ width: "500px", height: "500px", top: "-200px", left: "-150px", opacity: 0.3, animationDelay: "0s" }} />
-      <div className="orb orb-cyan" style={{ width: "400px", height: "400px", bottom: "-100px", right: "-100px", opacity: 0.2, animationDelay: "2s" }} />
-      <div className="orb orb-purple" style={{ width: "300px", height: "300px", top: "30%", right: "10%", opacity: 0.15, animationDelay: "1s" }} />
 
       {/* Main content */}
       <div style={{ maxWidth: "900px", width: "100%", position: "relative", zIndex: 1 }}>
 
         {/* Badge */}
         <div className="animate-slide-up" style={{ display: "flex", justifyContent: "center", marginBottom: "28px" }}>
-          <div className="badge animate-bounce-subtle">
-            <span>🎓</span>
-            École Supérieure d'Informatique
-          </div>
+          <div className="badge">École Supérieure d'Informatique</div>
         </div>
 
         {/* Headline */}
         <div className="animate-slide-up-delay-1" style={{ textAlign: "center", marginBottom: "20px" }}>
-          <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.03em", color: "#f0f4ff", marginBottom: "4px" }}>
-            Prenez le contrôle de{" "}
-          </h1>
-          <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.03em" }}>
-            <span className="gradient-text">votre parcours académique</span>
+          <h1 className="welcome-title" style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.03em", color: "#f0f4ff", marginBottom: "4px" }}>
+            Prenez le contrôle de <span className="accent-text">votre parcours académique</span>
           </h1>
         </div>
 
@@ -86,16 +66,17 @@ export default function WelcomeCard() {
                   width: "52px",
                   height: "52px",
                   borderRadius: "14px",
-                  background: f.color,
+                  background: "var(--accent-blue)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "22px",
+                  fontSize: "0.9rem",
+                  fontWeight: 800,
+                  color: "white",
                   marginBottom: "16px",
-                  boxShadow: `0 8px 24px ${f.glow}`,
                 }}
               >
-                {f.icon}
+                {f.number}
               </div>
               <h3 style={{ fontWeight: 700, fontSize: "1rem", color: "#f0f4ff", marginBottom: "8px" }}>{f.title}</h3>
               <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>{f.desc}</p>
@@ -105,14 +86,14 @@ export default function WelcomeCard() {
 
         {/* CTA Button */}
         <div className="animate-slide-up-delay-4" style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
-          <button
-            onClick={() => router.push("/semesters")}
+          <Link
+            href="/semesters"
             className="btn-primary"
-            style={{ fontSize: "1.1rem", padding: "16px 48px", display: "flex", alignItems: "center", gap: "10px" }}
+            style={{ fontSize: "1.1rem", padding: "16px 48px", display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}
           >
             <span>Commencer le calcul</span>
-            <span style={{ fontSize: "1.2rem" }}>→</span>
-          </button>
+            <span aria-hidden="true">→</span>
+          </Link>
         </div>
 
         {/* Stats strip */}
@@ -124,7 +105,7 @@ export default function WelcomeCard() {
             gap: "40px",
             marginTop: "48px",
             padding: "20px",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
+            borderTop: "1px solid #38516c",
             flexWrap: "wrap",
           }}
         >
@@ -134,7 +115,7 @@ export default function WelcomeCard() {
             { value: "32+", label: "Modules" },
           ].map((stat, i) => (
             <div key={i} style={{ textAlign: "center" }}>
-              <div className="gradient-text" style={{ fontSize: "1.8rem", fontWeight: 900, lineHeight: 1 }}>{stat.value}</div>
+              <div className="accent-text" style={{ fontSize: "1.8rem", fontWeight: 900, lineHeight: 1 }}>{stat.value}</div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "4px", letterSpacing: "0.06em", textTransform: "uppercase" }}>{stat.label}</div>
             </div>
           ))}
