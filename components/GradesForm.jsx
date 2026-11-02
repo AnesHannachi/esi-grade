@@ -13,10 +13,10 @@ const CONTROL_TYPES = [
 
 ]
 
-// Each module uses its own defaultControls from coursesData (see lib/coursesData.jsx)
-// UUIDs are added at runtime to ensure each control row has a unique React key
-const makeControls = (defs) =>
-  defs.map((d) => ({ ...d, id: crypto.randomUUID() }))
+// Stable IDs keep the initial server and browser render identical.
+const makeControls = (defs, moduleId) =>
+  defs.map((d, index) => ({ ...d, id: `${moduleId}-control-${index}` }))
+let nextControlId = 0
 const getTypeInfo = (key) => CONTROL_TYPES.find((t) => t.key === key) || CONTROL_TYPES[0]
 
 // ─── Helper ─────────────────────────────────────────────────────────────────────
@@ -106,7 +106,7 @@ function ModuleCard({ module, idx, onChange }) {
 
   const addControl = () => {
     if (controls.length >= 6) return
-    onChange(module.id, [...controls, { id: crypto.randomUUID(), type: "CI", percent: 0, value: "" }])
+    onChange(module.id, [...controls, { id: `${module.id}-control-new-${++nextControlId}`, type: "CI", percent: 0, value: "" }])
   }
 
   const removeControl = (id) => {
@@ -329,12 +329,12 @@ export default function GradesForm({ year, semester, onSubmit }) {
       id: m.id,
       name: m.name,
       coefficient: m.coefficient ?? 1,
-      // Use each module's own defaultControls, with fresh UUIDs
+      // Use each module's own defaultControls (see lib/coursesData.jsx)
       controls: makeControls(m.defaultControls || [
         { type: "CI", percent: 25, value: "" },
         { type: "CC", percent: 25, value: "" },
         { type: "CF", percent: 50, value: "" },
-      ]),
+      ], m.id),
     }))
   )
 
